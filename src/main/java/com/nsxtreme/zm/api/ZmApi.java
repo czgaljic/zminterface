@@ -2,7 +2,9 @@ package com.nsxtreme.zm.api;
 
 
 
+import com.nsxtreme.zm.Application;
 import com.nsxtreme.zm.models.Events;
+import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
@@ -21,25 +23,16 @@ public class ZmApi {
     @Autowired
     ZmURLBuilder zmURLBuilder;
 
-    public ZmApi(RestTemplate restTemplate,ZmURLBuilder zmURLBuilder){
-        this.restTemplate=restTemplate;
-        this.zmURLBuilder = zmURLBuilder;
-    }
+
+    private static final Logger log = Logger.getLogger(ZmApi.class);
 
     public Events getAllEvents(){
         return restTemplate.getForObject(zmURLBuilder.getAllEventsURL(),Events.class);
     }
 
-
-    public Events getAllEvents(){
-        return restTemplate.getForObject("http://surveil/zm/api/events.json",Events.class);
+    public Events getAllEvents(LocalDateTime start, LocalDateTime end,String page){
+        String requestURL = zmURLBuilder.getEventsDateRange(start,end,page);
+        log.info(requestURL);
+        return restTemplate.getForObject(requestURL,Events.class);
     }
-
-
-    public Events getAllEvents(LocalDateTime end){
-
-    }
-
-
-
 }

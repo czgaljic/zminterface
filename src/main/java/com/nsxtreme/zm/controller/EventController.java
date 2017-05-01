@@ -1,13 +1,17 @@
 package com.nsxtreme.zm.controller;
 
 import com.nsxtreme.zm.api.ZmApi;
-import com.nsxtreme.zm.models.EventList;
+import com.nsxtreme.zm.models.Events;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 import java.time.temporal.ChronoUnit;
+import java.util.Date;
 
 /**
  * Created by chris on 4/28/2017.
@@ -23,11 +27,13 @@ public class EventController {
     @Autowired
     ZmApi zmapi;
 
-    @RequestMapping("/default")
-    public EventList[] defaultListing(){
-        LocalDateTime endDate = LocalDateTime.now();
-        LocalDateTime startDate = endDate.minus(1, ChronoUnit.HOURS);
-        zmapi.getEventsDateRange(startDate,endDate);
-
+    @RequestMapping("/search")
+    public Events defaultListing(@RequestParam(value="startDate") String startDate, @RequestParam(value="endDate")String endDate, @RequestParam(value="page", defaultValue="1") String page){
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
+        LocalDateTime endDateTime = LocalDateTime.parse(endDate,formatter);
+        LocalDateTime startDateTime = LocalDateTime.parse(startDate,formatter);
+        return zmapi.getAllEvents(startDateTime,endDateTime,page);
     }
+
+
 }

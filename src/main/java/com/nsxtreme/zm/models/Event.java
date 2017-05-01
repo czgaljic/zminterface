@@ -14,7 +14,9 @@ public class Event {
     private int id;
     @JsonProperty("MonitorId")
     private int monitorId;
+    @JsonProperty("Name")
     private String name;
+    @JsonProperty("Cause")
     private String cause;
     @JsonProperty("StartTime")
     private String startTime;

@@ -25,5 +25,5 @@ public class Events {
     }
 
     Pagination pagination;
-    EventItem[ ] events;
+    EventItem[] events;
 }

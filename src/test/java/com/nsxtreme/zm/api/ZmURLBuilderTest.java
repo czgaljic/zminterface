@@ -24,9 +24,9 @@ import static org.springframework.test.annotation.DirtiesContext.MethodMode.BEFO
         classes = Application.class,
         properties = ("spring.main.banner-mode=off"))
 @ActiveProfiles("test")
-public class ZmApiTest{
+public class ZmURLBuilderTest {
     @Autowired
-    private ZmApi zmApi;
+    private ZmURLBuilder zmApi;
 
     @Test
     @DirtiesContext(methodMode = BEFORE_METHOD)
@@ -42,7 +42,7 @@ public class ZmApiTest{
         DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
         String startString =now.format(formatter);
         String endString = later.format(formatter);
-        assertEquals("http://surveil/zm/api/events/index/StartTime >=:"+startString+"/EndTime <=:"+endString+".json", zmApi.getEventsDateRange(now,later));
+        assertEquals("http://surveil/zm/api/events/index/StartTime >=:"+startString+"/EndTime <=:"+endString+".json?page=1", zmApi.getEventsDateRange(now,later,"1"));
     }
 
 }
